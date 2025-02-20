@@ -44,30 +44,30 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email'); 
         $password = $request->request->get('password');
 
-        // 🛑 Debug: Vérification des données soumises
+        //  Debug: Vérification des données soumises
         dump("🔍 Tentative de connexion avec :", $email, $password);
 
         // Vérification si l'utilisateur existe en BDD
         $user = $this->userRepository->findOneBy(['email' => $email]);
 
         if (!$user) {
-            dump("❌ Utilisateur non trouvé !");
+            dump(" Utilisateur non trouvé !");
             die();
         } else {
-            dump("✅ Utilisateur trouvé :", $user);
+            dump(" Utilisateur trouvé :", $user);
         }
 
         // Vérification du hasher
-        dump("🛠 Hasher utilisé :", $this->passwordHasher);
+        dump(" Hasher utilisé :", $this->passwordHasher);
 
         // Vérification du mot de passe
-        dump("🔐 Hash stocké en BDD :", $user->getPassword());
+        dump("Hash stocké en BDD :", $user->getPassword());
 
         if (!$this->passwordHasher->isPasswordValid($user, $password)) {
-            dump("❌ Mot de passe incorrect !");
+            dump(" Mot de passe incorrect !");
             die();
         } else {
-            dump("✅ Mot de passe correct !");
+            dump(" Mot de passe correct !");
         }
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
@@ -85,8 +85,8 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // 🛑 Debug: Connexion réussie
-        dump("🚀 Connexion réussie !");
+        //  Debug: Connexion réussie
+        dump(" Connexion réussie !");
         die();
 
         return new RedirectResponse($this->urlGenerator->generate('home'));
